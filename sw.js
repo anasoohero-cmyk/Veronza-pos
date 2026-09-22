@@ -1,4 +1,4 @@
-const CACHE_NAME='V100';
+const CACHE_NAME='V101';
 // V98: add vendored JsBarcode for real scannable product barcodes
 const SHELL=['./','./index.html','./app.js','./sw.js','./manifest.webmanifest','./apple-touch-icon.png','./icon-192.png','./icon-512.png','./vendor/supabase.js','./vendor/jsbarcode.js'];
 self.addEventListener('install',event=>{event.waitUntil((async()=>{const cache=await caches.open(CACHE_NAME);let done=0;for(const url of SHELL){const response=await fetch(new Request(url,{cache:'reload'}));if(!response.ok)throw new Error('Failed to update '+url);await cache.put(url,response.clone());done++;const clients=await self.clients.matchAll({type:'window',includeUncontrolled:true});clients.forEach(client=>client.postMessage({type:'UPDATE_PROGRESS',done,total:SHELL.length,detail:`جاري تحديث ملفات Veronza (${done}/${SHELL.length})`}));}})())});
