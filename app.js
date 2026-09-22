@@ -27,6 +27,40 @@ function renderBarcodeSvg(code){try{let el=document.createElementNS('http://www.
 function printBarcode(id){let p=products.find(x=>x.id===id);if(!p)return;let svg=renderBarcodeSvg(p.barcode);let w=window.open('','_blank');if(!w)return toast('اسمح بفتح النوافذ المنبثقة للطباعة');w.document.write('<!doctype html><html dir="rtl"><head><meta charset="utf-8"><title>Veronza - '+p.barcode+'</title><style>body{font-family:Arial;text-align:center;padding:20px}.brand{font-size:22px;font-weight:bold}.code{font-size:28px;letter-spacing:4px;margin:12px}.meta{font-size:14px}svg{max-width:100%}</style></head><body><div class="brand">Veronza</div><div>'+String(p.name).replace(/[<>]/g,'')+'</div>'+(svg||'<div class="code">'+p.barcode+'</div>')+'<div class="meta">'+(p.size||'')+' '+(p.color||'')+'</div></body></html>');w.document.close()}
 function renderProducts(){let q=($('productSearch')?.value||'').toLowerCase();let a=products.filter(p=>Object.values(p).join(' ').toLowerCase().includes(q));$('productRows').innerHTML=a.length?a.map(p=>`<tr><td><b>${p.barcode}</b></td><td>${p.name}</td><td>${p.model||''}</td><td>${p.size||''}</td><td>${p.color||''}</td><td class="${p.qty<=p.min?'low':''}">${p.qty}</td><td>${money(p.buy)}</td><td>${money(p.sell)}</td><td><button onclick="printBarcode(${p.id})">طباعة</button> <button class="danger" onclick="delProduct(${p.id})">حذف</button></td></tr>`).join(''):`<tr><td colspan="9" class="empty">لا توجد منتجات</td></tr>`}
 async function sell(){let bc=$('saleBarcode').value.trim(),q=+$('saleQty').value||1;if(!bc)return toast('أدخل أو امسح الباركود');let {data,error}=await sb.rpc('record_sale',{p_barcode:bc,p_qty:q,p_customer:$('saleCustomer').value.trim()||null});if(error)return toast(error.message);$('saleBarcode').value='';$('saleQty').value=1;$('saleCustomer').value='';toast('تم تسجيل البيع '+money(data.total));await loadAll()}
+let zxingReader=null;
+function stopScan(){try{if(zxingReader){zxingReader.reset();zxingReader=null}}catch(e){}let v=document.getElementById('vzScanVideo');try{if(v&&v.srcObject){v.srcObject.getTracks().forEach(t=>t.stop());v.srcObject=null}}catch(e){}let o=document.getElementById('vzScanOverlay');if(o)o.remove()}
+async function startScan(){
+  if(document.getElementById('vzScanOverlay'))return;
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia)return toast('الكاميرا غير متاحة على هذا المتصفح');
+  let o=document.createElement('div');
+  o.id='vzScanOverlay';
+  o.style.cssText='position:fixed;inset:0;z-index:2147483000;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;box-sizing:border-box';
+  o.innerHTML='<video id="vzScanVideo" autoplay playsinline muted style="width:100%;max-width:480px;aspect-ratio:3/4;object-fit:cover;background:#111;border-radius:16px"></video><div style="color:#fff;margin:16px;font-size:15px">وجّه الكاميرا نحو الباركود</div><button id="vzScanClose" style="padding:12px 30px;border-radius:14px;background:#fff;color:#111;font-weight:700;border:0">إغلاق</button>';
+  document.body.appendChild(o);
+  $('vzScanClose').onclick=stopScan;
+  let videoEl=$('vzScanVideo');
+  try{
+    zxingReader=new ZXing.BrowserMultiFormatReader();
+    const onResult=(result,err)=>{
+      if(result){
+        let text=result.getText();
+        $('saleBarcode').value=text;
+        toast('تم مسح الباركود: '+text);
+        stopScan();
+        let q=$('saleQty');if(q)q.focus();
+      }
+    };
+    try{
+      await zxingReader.decodeFromConstraints({video:{facingMode:'environment'}},videoEl,onResult);
+    }catch(e1){
+      await zxingReader.decodeFromConstraints({video:true},videoEl,onResult);
+    }
+  }catch(e){
+    console.error(e);
+    toast('تعذر تشغيل الكاميرا: '+(e.message||'تحقق من صلاحية الكاميرا'));
+    stopScan();
+  }
+}
 async function addCustomer(){let name=$('cName').value.trim();if(!name)return toast('اكتب اسم العميل');let {error}=await sb.from('customers').insert({name,phone:$('cPhone').value.trim(),address:$('cAddress').value.trim(),notes:$('cNotes').value.trim()});if(error)toast(error.message);else{['cName','cPhone','cAddress','cNotes'].forEach(id=>$(id).value='');toast('تمت إضافة العميل');await loadAll()}}
 async function addSupplier(){let name=$('sName').value.trim();if(!name)return toast('اكتب اسم المورد');let {error}=await sb.from('suppliers').insert({name,phone:$('sPhone').value.trim()});if(error)toast(error.message);else{['sName','sPhone'].forEach(id=>$(id).value='');toast('تمت إضافة المورد');await loadAll()}}
 let orderBusy=false;
