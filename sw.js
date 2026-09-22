@@ -1,6 +1,6 @@
-const CACHE_NAME='V96';
-// V96: force installed Veronza icon to receive the latest app shell
-const SHELL=['./','./index.html','./app.js','./sw.js','./manifest.webmanifest','./apple-touch-icon.png','./icon-192.png','./icon-512.png'];
+const CACHE_NAME='V97';
+// V97: vendor supabase-js locally instead of loading it from jsdelivr at runtime
+const SHELL=['./','./index.html','./app.js','./sw.js','./manifest.webmanifest','./apple-touch-icon.png','./icon-192.png','./icon-512.png','./vendor/supabase.js'];
 self.addEventListener('install',event=>{event.waitUntil((async()=>{const cache=await caches.open(CACHE_NAME);let done=0;for(const url of SHELL){const response=await fetch(new Request(url,{cache:'reload'}));if(!response.ok)throw new Error('Failed to update '+url);await cache.put(url,response.clone());done++;const clients=await self.clients.matchAll({type:'window',includeUncontrolled:true});clients.forEach(client=>client.postMessage({type:'UPDATE_PROGRESS',done,total:SHELL.length,detail:`جاري تحديث ملفات Veronza (${done}/${SHELL.length})`}));}})())});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key.startsWith('V')&&key!==CACHE_NAME).map(key=>caches.delete(key)))).then(()=>self.clients.claim()))});
 self.addEventListener('message',event=>{if(event.data?.type==='SKIP_WAITING')self.skipWaiting();if(event.data?.type==='GET_VERSION'&&event.ports?.[0])event.ports[0].postMessage({version:CACHE_NAME})});
