@@ -748,6 +748,7 @@ function vzGo(id){
   let reloadStarted=false;
   let listenersReady=false;
   let progressTimers=[];
+  let watchdogTimer=null;
 
   function setPageLocked(locked){
     document.body.style.overflow=locked?'hidden':'';
@@ -816,6 +817,15 @@ function vzGo(id){
     [[12,250],[28,550],[45,850],[65,1150],[82,1500],[92,1900]].forEach(function(item){
       progressTimers.push(setTimeout(function(){setUpdateProgress(item[0]);},item[1]));
     });
+    // Safety net: some iOS standalone-PWA contexts never fire controllerchange
+    // after SKIP_WAITING, which would otherwise leave this screen locked forever.
+    clearTimeout(watchdogTimer);
+    watchdogTimer=setTimeout(function(){
+      if(!reloadStarted){
+        reloadStarted=true;
+        location.reload();
+      }
+    },16000);
   }
 
   function showUpdateError(){
@@ -964,6 +974,7 @@ function vzGo(id){
         return;
       }
       clearProgressTimers();
+      clearTimeout(watchdogTimer);
       setUpdateProgress(100);
       try{
         localStorage.setItem(APPLIED_KEY,pending);
