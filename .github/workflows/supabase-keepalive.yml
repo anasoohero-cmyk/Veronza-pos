@@ -1,0 +1,21 @@
+name: Supabase keep-alive
+
+on:
+  schedule:
+    - cron: '0 3 * * 1,4'
+  workflow_dispatch: {}
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Veronza Supabase project
+        run: |
+          code=$(curl -sS -o /dev/null -w "%{http_code}" \
+            "https://xmllfoqisxpgzjgxmxng.supabase.co/rest/v1/products?select=id&limit=1" \
+            -H "apikey: sb_publishable_Lg2q4OLoflhhJKVrfPbOew_MAbH-r82")
+          echo "HTTP status: $code"
+          if [ "$code" -lt 200 ] || [ "$code" -ge 300 ]; then
+            echo "Ping failed — project may be paused or unreachable."
+            exit 1
+          fi
