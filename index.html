@@ -483,20 +483,16 @@ transition:transform .2s ease,opacity .2s ease;opacity:0;pointer-events:none}
     <div class="brandmark">V</div>
   </div>
 
-  <div class="action-grid">
+  <div class="action-grid" id="orderCategoryGrid">
     <button class="action-card" onclick="showView('sales')"><span class="aicon">🛍️</span><b>بيع جديد</b><small>عملية بيع سريعة</small></button>
     <button class="action-card" onclick="startScan()"><span class="aicon">⌁</span><b>مسح باركود</b><small>بالكاميرا</small></button>
     <button class="action-card" onclick="showView('orders');$('addOrderPanel').style.display=''"><span class="aicon">📦</span><b>أضف طلب</b><small>طلب وتوصيل</small></button>
-  </div>
-
-  <div class="action-grid" id="orderCategoryGrid">
     <button class="action-card" onclick="showView('orders');filterOrders('all')"><span class="aicon">📋</span><b>كل الطلبات</b><small>عرض الكل</small></button>
     <button class="action-card" onclick="showView('orders');filterOrders('طلبات الشركة')"><span class="aicon">🏢</span><b>طلبات الشركة</b><small>طلبات الشركة</small></button>
     <button class="action-card" onclick="showView('orders');filterOrders('طلبات طرابلس')"><span class="aicon">📍</span><b>طلبات طرابلس</b><small>توصيل طرابلس</small></button>
     <button class="action-card" onclick="showView('orders');filterOrders('راجع')"><span class="aicon">↩</span><b>راجع</b><small>طلبات مرتجعة</small></button>
     <button class="action-card" onclick="showView('orders');filterOrders('ملغي')"><span class="aicon">✕</span><b>ملغي</b><small>طلبات ملغاة</small></button>
   </div>
-
 
 </div>
 </section>
