@@ -484,7 +484,6 @@ transition:transform .2s ease,opacity .2s ease;opacity:0;pointer-events:none}
   </div>
 
   <div class="action-grid">
-    <button class="action-card" onclick="showView('products')"><span class="aicon">＋</span><b>إضافة منتج</b><small>إلى المخزون</small></button>
     <button class="action-card" onclick="showView('sales')"><span class="aicon">🛍️</span><b>بيع جديد</b><small>عملية بيع سريعة</small></button>
     <button class="action-card" onclick="startScan()"><span class="aicon">⌁</span><b>مسح باركود</b><small>بالكاميرا</small></button>
     <button class="action-card" onclick="showView('orders');$('addOrderPanel').style.display=''"><span class="aicon">📦</span><b>أضف طلب</b><small>طلب وتوصيل</small></button>
@@ -498,55 +497,6 @@ transition:transform .2s ease,opacity .2s ease;opacity:0;pointer-events:none}
     <button class="action-card" onclick="showView('orders');filterOrders('ملغي')"><span class="aicon">✕</span><b>ملغي</b><small>طلبات ملغاة</small></button>
   </div>
 
-  <div class="follow-card" onclick="showView('orders')">
-    <div><b>طلبات تحتاج متابعتك</b><small style="display:block;opacity:.8;margin-top:4px">راجع الطلبات والتوصيل وحالات التسليم</small></div>
-    <div class="check">✓</div>
-  </div>
-
-  <div class="dashboard-title-row">
-    <div><span class="eyebrow">ملخص المنظومة</span><h2>لوحة التحكم</h2></div>
-    <button onclick="showView('reports')">التقارير ‹</button>
-  </div>
-
-  <div class="stat-grid">
-    <div class="stat money"><div class="icon">▣</div><small>إجمالي المبيعات</small><b id="statSales">0</b><em>د.ل</em></div>
-    <div class="stat"><div class="icon">📦</div><small>المخزون المتوفر</small><b id="statStock">0</b><em>قطعة</em></div>
-    <div class="stat good"><div class="icon">▦</div><small>عدد المنتجات</small><b id="statProducts">0</b><em>صنف</em></div>
-    <div class="stat warn"><div class="icon">⚠</div><small>مخزون منخفض</small><b id="statLow">0</b><em>يحتاج متابعة</em></div>
-  </div>
-
-  <div class="status-grid">
-    <button class="status-card" onclick="showView('orders')"><span class="si">🛒</span><small>طلبات اليوم</small><b id="dashTodayOrders">0</b></button>
-    <button class="status-card" onclick="showView('orders')"><span class="si">🚚</span><small>قيد التوصيل</small><b id="dashDelivery">0</b></button>
-    <button class="status-card" onclick="showView('returns')"><span class="si">↩</span><small>المرتجعات</small><b id="dashReturns">0</b></button>
-    <button class="status-card" onclick="showView('customers')"><span class="si">👥</span><small>العملاء</small><b id="dashCustomers">0</b></button>
-  </div>
-
-  <div class="section-card low-stock-panel">
-    <div class="section-head"><h3>⚠️ المخزون المنخفض <span id="lowCount" class="badge">0</span></h3><button onclick="showView('products')">عرض الكل</button></div>
-    <div id="lowList" style="display:flex;flex-wrap:wrap;gap:7px">لا توجد أصناف منخفضة.</div>
-  </div>
-
-  <div class="section-card">
-    <div class="section-head"><h3>أحدث المنتجات</h3><button onclick="showView('products')">عرض الكل</button></div>
-    <div class="product-strip">
-      <div class="product-mini"><div class="photo">👟</div><b>منتج جديد</b><small><span class="stock-dot"></span> متوفر</small></div>
-      <div class="product-mini"><div class="photo">👜</div><b>شنطة</b><small><span class="stock-dot"></span> متوفر</small></div>
-      <div class="product-mini"><div class="photo">👞</div><b>حذاء</b><small><span class="stock-dot mid"></span> كمية محدودة</small></div>
-      <div class="product-mini"><div class="photo">🛍️</div><b>إكسسوار</b><small><span class="stock-dot low"></span> مخزون منخفض</small></div>
-    </div>
-  </div>
-
-  <div class="section-card">
-    <div class="section-head"><h3>أحدث الطلبات</h3><button onclick="showView('orders')">عرض الكل</button></div>
-    <div class="order-row"><div class="order-icon">📦</div><div><b>آخر طلب</b><small>طلب بيع وتوصيل</small></div><span class="pill">جاري التوصيل</span><b>›</b></div>
-    <div class="order-row"><div class="order-icon">🛒</div><div><b>عملية بيع</b><small>تم تسجيلها في النظام</small></div><span class="pill pending">قيد المتابعة</span><b>›</b></div>
-  </div>
-
-  <div class="quick-bottom">
-    <button class="primary" onclick="showView('products')">＋ إضافة منتج جديد<br><small>تسجيل منتج في المخزون</small></button>
-    <button class="gold" onclick="showView('sales')">🛒 إجراء عملية بيع<br><small>بيع سريع وسهل</small></button>
-  </div>
 
 </div>
 </section>
