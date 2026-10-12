@@ -222,7 +222,7 @@ main{max-width:980px!important;margin:auto!important;padding:15px!important}
  display:flex!important;flex-direction:column!important;justify-content:center!important;align-items:center!important;
 }
 .action-card .aicon{font-size:25px!important;margin-bottom:7px}
-.action-card b{font-size:13px!important}.action-card small{font-size:9px!important;opacity:.8}
+.action-card b{font-size:13px!important}.action-card small{font-size:9px!important;opacity:.8}.action-card .order-count{margin-top:5px;padding:2px 10px;border-radius:999px;background:rgba(255,255,255,.22);font-size:12px;font-weight:800}
 .follow-card{
  display:flex!important;align-items:center!important;justify-content:space-between!important;
  background:linear-gradient(135deg,var(--p),#71366a)!important;color:#fff!important;
@@ -279,6 +279,7 @@ main{max-width:980px!important;margin:auto!important;padding:15px!important}
 .quick-bottom button{min-height:88px;border-radius:19px!important;font-weight:900!important}
 @media(max-width:760px){
  .action-grid{grid-template-columns:repeat(2,1fr)!important}
+ .action-grid .action-card:last-child:nth-child(odd){grid-column:1/-1!important}
  .stat-grid{grid-template-columns:repeat(2,1fr)!important}
  .status-grid{grid-template-columns:repeat(2,1fr)!important}
  .product-strip{grid-template-columns:repeat(2,1fr)}
@@ -487,11 +488,12 @@ transition:transform .2s ease,opacity .2s ease;opacity:0;pointer-events:none}
     <button class="action-card" onclick="showView('sales')"><span class="aicon">🛍️</span><b>بيع جديد</b><small>عملية بيع سريعة</small></button>
     <button class="action-card" onclick="startScan()"><span class="aicon">⌁</span><b>مسح باركود</b><small>بالكاميرا</small></button>
     <button class="action-card" onclick="showView('orders');$('addOrderPanel').style.display=''"><span class="aicon">📦</span><b>أضف طلب</b><small>طلب وتوصيل</small></button>
-    <button class="action-card" onclick="showView('orders');filterOrders('all')"><span class="aicon">📋</span><b>كل الطلبات</b><small>عرض الكل</small></button>
-    <button class="action-card" onclick="showView('orders');filterOrders('طلبات الشركة')"><span class="aicon">🏢</span><b>طلبات الشركة</b><small>طلبات الشركة</small></button>
-    <button class="action-card" onclick="showView('orders');filterOrders('طلبات طرابلس')"><span class="aicon">📍</span><b>طلبات طرابلس</b><small>توصيل طرابلس</small></button>
-    <button class="action-card" onclick="showView('orders');filterOrders('راجع')"><span class="aicon">↩</span><b>راجع</b><small>طلبات مرتجعة</small></button>
-    <button class="action-card" onclick="showView('orders');filterOrders('ملغي')"><span class="aicon">✕</span><b>ملغي</b><small>طلبات ملغاة</small></button>
+    <button class="action-card" onclick="showView('orders');filterOrders('all')"><span class="aicon">📋</span><b>كل الطلبات</b><small>عرض الكل</small><span class="order-count" data-status="all">0</span></button>
+    <button class="action-card" onclick="showView('orders');filterOrders('تحت المراجعة')"><span class="aicon">🕓</span><b>تحت المراجعة</b><small>طلبات جديدة</small><span class="order-count" data-status="تحت المراجعة">0</span></button>
+    <button class="action-card" onclick="showView('orders');filterOrders('طلبات الشركة')"><span class="aicon">🏢</span><b>طلبات الشركة</b><small>طلبات الشركة</small><span class="order-count" data-status="طلبات الشركة">0</span></button>
+    <button class="action-card" onclick="showView('orders');filterOrders('طلبات طرابلس')"><span class="aicon">📍</span><b>طلبات طرابلس</b><small>توصيل طرابلس</small><span class="order-count" data-status="طلبات طرابلس">0</span></button>
+    <button class="action-card" onclick="showView('orders');filterOrders('راجع')"><span class="aicon">↩</span><b>راجع</b><small>طلبات مرتجعة</small><span class="order-count" data-status="راجع">0</span></button>
+    <button class="action-card" onclick="showView('orders');filterOrders('ملغي')"><span class="aicon">✕</span><b>ملغي</b><small>طلبات ملغاة</small><span class="order-count" data-status="ملغي">0</span></button>
   </div>
 
 </div>
@@ -513,7 +515,7 @@ transition:transform .2s ease,opacity .2s ease;opacity:0;pointer-events:none}
 </section>
 
 <section id="orders" class="view"><h2>الطلبات والتوصيل</h2>
- <div class="panel"><div class="actions" id="orderFilterBar"><button class="primary" onclick="toggleAddOrderForm()">+ إضافة طلب</button><button data-status="all" class="active" onclick="filterOrders('all')">كل الطلبات</button><button data-status="طلبات الشركة" onclick="filterOrders('طلبات الشركة')">طلبات الشركة</button><button data-status="طلبات طرابلس" onclick="filterOrders('طلبات طرابلس')">طلبات طرابلس</button><button data-status="راجع" onclick="filterOrders('راجع')">راجع</button><button data-status="ملغي" onclick="filterOrders('ملغي')">ملغي</button></div></div>
+ <div class="panel"><div class="actions" id="orderFilterBar"><button class="primary" onclick="toggleAddOrderForm()">+ إضافة طلب</button><button data-status="all" class="active" onclick="filterOrders('all')">كل الطلبات</button><button data-status="تحت المراجعة" onclick="filterOrders('تحت المراجعة')">تحت المراجعة</button><button data-status="طلبات الشركة" onclick="filterOrders('طلبات الشركة')">طلبات الشركة</button><button data-status="طلبات طرابلس" onclick="filterOrders('طلبات طرابلس')">طلبات طرابلس</button><button data-status="راجع" onclick="filterOrders('راجع')">راجع</button><button data-status="ملغي" onclick="filterOrders('ملغي')">ملغي</button></div></div>
  <div class="panel" id="addOrderPanel" style="display:none"><div class="grid"><input id="oNo" placeholder="رقم الطلب — تلقائي" readonly><input id="oCustomer" placeholder="اسم العميل *"><input id="oPhone" placeholder="الهاتف"><input id="oAddress" placeholder="العنوان"><input id="oTotal" type="number" min="0" step="0.01" placeholder="الإجمالي"><select id="oDelivery"><option>قيد التجهيز</option><option>خرج للتوصيل</option><option>تم التسليم</option><option>تعذر التسليم</option></select><input id="oNotes" placeholder="ملاحظات"></div>
  <div class="actions"><button class="primary" onclick="addOrder()">إضافة الطلب</button></div></div>
  <div class="panel"><input id="orderSearch" placeholder="🔎 بحث بالرقم أو العميل أو الهاتف" oninput="renderOrders()"><div class="tablewrap"><table><thead><tr><th>الطلب</th><th>العميل</th><th>الهاتف</th><th>العنوان</th><th>الإجمالي</th><th>الحالة</th><th>التوصيل</th><th>التاريخ</th><th>ملاحظات</th><th>إجراء</th></tr></thead><tbody id="orderRows"></tbody></table></div></div>
