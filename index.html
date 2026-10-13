@@ -466,7 +466,7 @@ transition:transform .2s ease,opacity .2s ease;opacity:0;pointer-events:none}
  <nav id="nav" class="nav">
   <button class="active" data-v="dashboard">⌂ الرئيسية</button><button data-v="products">▣ المخزون</button>
   <button data-v="sales">🛒 المبيعات</button><button data-v="orders">📦 الطلبات والتوصيل</button><button data-v="returns">↩ المرتجعات</button>
-  <button data-v="suppliers">🚚 الموردون</button><button data-v="customers">♙ العملاء</button><button data-v="expenses">💰 المصروفات</button><button data-v="reports">▥ التقارير</button>
+  <button data-v="suppliers">🚚 الموردون</button><button data-v="customers">♙ العملاء</button><button data-v="expenses">💰 المصروفات</button><button data-v="reports">▥ التقارير</button><button data-v="users" style="display:none">👤 المستخدمون</button>
  </nav>
 </header>
 
@@ -525,6 +525,29 @@ transition:transform .2s ease,opacity .2s ease;opacity:0;pointer-events:none}
 <section id="suppliers" class="view"><h2>الموردون</h2><div class="panel"><div class="grid"><input id="sName" placeholder="اسم المورد"><input id="sPhone" placeholder="الهاتف"><button class="primary" onclick="addSupplier()">إضافة مورد</button></div><div class="tablewrap"><table><thead><tr><th>المورد</th><th>الهاتف</th></tr></thead><tbody id="supplierRows"></tbody></table></div></div></section>
 <section id="expenses" class="view"><h2>المصروفات</h2><div class="panel"><div class="grid"><select id="eType"><option value="شخصي">مصروف شخصي</option><option value="متجر">مصروف المتجر</option></select><input id="eAmount" type="number" placeholder="المبلغ" min="0" step="0.01"><input id="eNotes" placeholder="ملاحظات"></div><div class="actions"><button class="primary" onclick="addExpense()">إضافة مصروف</button></div></div><div class="cards"><div class="card"><span>إجمالي مصروفاتي الشخصية</span><b id="expPersonalTotal">0</b></div><div class="card"><span>إجمالي مصروفات المتجر</span><b id="expStoreTotal">0</b></div></div><div class="panel"><div class="tablewrap"><table><thead><tr><th>التاريخ</th><th>النوع</th><th>المبلغ</th><th>ملاحظات</th><th></th></tr></thead><tbody id="expenseRows"></tbody></table></div></div></section>
 <section id="reports" class="view"><h2>التقارير</h2><div class="panel"><div class="filters"><label>الفترة <select id="reportPeriod" onchange="renderReports()"><option value="all">كل المبيعات</option><option value="today">اليوم</option><option value="7d">آخر 7 أيام</option><option value="month">هذا الشهر</option></select></label><span id="reportPeriodLabel">كل المبيعات</span></div></div><div class="cards"><div class="card"><span>إجمالي المبيعات</span><b id="rptTotal">0</b></div><div class="card"><span>إجمالي الربح</span><b id="rptProfit">0</b></div><div class="card"><span>صافي الربح (بعد مصروفات المتجر)</span><b id="rptNetProfit">0</b></div><div class="card"><span>عدد القطع المباعة</span><b id="rptQty">0</b></div><div class="card"><span>متوسط العملية</span><b id="rptAvg">0</b></div><div class="card"><span>قيمة المخزون بالشراء</span><b id="rptStockCost">0</b></div><div class="card"><span>قيمة المخزون بسعر البيع</span><b id="rptStockPotential">0</b></div></div><div class="panel"><h3>أفضل المنتجات حسب المبيعات</h3><div class="tablewrap"><table><thead><tr><th>المنتج</th><th>القطع المباعة</th></tr></thead><tbody id="reportRows"></tbody></table></div></div></section>
+<section id="users" class="view"><h2>المستخدمون والصلاحيات</h2>
+ <div id="usersDenied" class="empty" style="display:none;padding:20px">هذه الصفحة للمالك فقط</div>
+ <div id="usersContent">
+  <div class="panel">
+   <h3>إضافة / تعديل صلاحيات موظف</h3>
+   <div class="grid"><input id="uEmail" placeholder="البريد الإلكتروني للموظف (يجب أن يكون له حساب مسجّل مسبقًا)"></div>
+   <div class="tablewrap"><table><thead><tr><th>الصنف</th><th>قراءة</th><th>إضافة</th><th>تعديل</th></tr></thead><tbody>
+    <tr><td>المخزون</td><td><input type="checkbox" id="uPerm_products_view"></td><td><input type="checkbox" id="uPerm_products_add"></td><td><input type="checkbox" id="uPerm_products_edit"></td></tr>
+    <tr><td>المبيعات</td><td><input type="checkbox" id="uPerm_sales_view"></td><td><input type="checkbox" id="uPerm_sales_add"></td><td><input type="checkbox" id="uPerm_sales_edit"></td></tr>
+    <tr><td>الطلبات</td><td><input type="checkbox" id="uPerm_orders_view"></td><td><input type="checkbox" id="uPerm_orders_add"></td><td><input type="checkbox" id="uPerm_orders_edit"></td></tr>
+    <tr><td>المرتجعات</td><td><input type="checkbox" id="uPerm_returns_view"></td><td><input type="checkbox" id="uPerm_returns_add"></td><td><input type="checkbox" id="uPerm_returns_edit"></td></tr>
+    <tr><td>العملاء</td><td><input type="checkbox" id="uPerm_customers_view"></td><td><input type="checkbox" id="uPerm_customers_add"></td><td><input type="checkbox" id="uPerm_customers_edit"></td></tr>
+    <tr><td>الموردون</td><td><input type="checkbox" id="uPerm_suppliers_view"></td><td><input type="checkbox" id="uPerm_suppliers_add"></td><td><input type="checkbox" id="uPerm_suppliers_edit"></td></tr>
+    <tr><td>المصروفات</td><td><input type="checkbox" id="uPerm_expenses_view"></td><td><input type="checkbox" id="uPerm_expenses_add"></td><td><input type="checkbox" id="uPerm_expenses_edit"></td></tr>
+   </tbody></table></div>
+   <div class="actions"><button class="primary" onclick="saveStaffPermission()">حفظ الصلاحيات</button></div>
+  </div>
+  <div class="panel">
+   <h3>الموظفون الحاليون</h3>
+   <div class="tablewrap"><table><thead><tr><th>البريد الإلكتروني</th><th>الدور</th><th>الصلاحيات</th><th>إجراء</th></tr></thead><tbody id="staffRows"></tbody></table></div>
+  </div>
+ </div>
+</section>
 <div style="display:none"></div>
 <div class="footer">Veronza — Shoes & Bag<br>كل خطوة نحو نجاح أكبر</div>
 
@@ -651,6 +674,7 @@ window.veronzaRefreshData = async function(){
       <button class="vz-menu-item" data-menu-view="suppliers" onclick="vzGo('suppliers')"><span class="mi">🏷️</span>الموردون</button>
       <button class="vz-menu-item" data-menu-view="expenses" onclick="vzGo('expenses')"><span class="mi">💰</span>المصروفات</button>
       <button class="vz-menu-item" data-menu-view="reports" onclick="vzGo('reports')"><span class="mi">📊</span>التقارير</button>
+      <button class="vz-menu-item" data-menu-view="users" onclick="vzGo('users')" style="display:none"><span class="mi">👤</span>المستخدمون</button>
     </div>
     <div class="vz-menu-footer">Veronza — إدارة المخزون والمبيعات والتوصيل</div>
   </aside>
