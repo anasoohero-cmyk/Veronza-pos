@@ -486,6 +486,82 @@ transition:transform .2s ease,opacity .2s ease;opacity:0;pointer-events:none}
 .vc-field select{width:100%;padding:10px;border-radius:11px;border:1px solid var(--line);background:#fff}
 .vc-actions>button{padding:10px 15px;border-radius:11px}
 </style>
+<style id="veronza-products-style">
+.pf-searchbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.pf-searchbar #productSearch{flex:1 1 220px;min-width:0}
+.pf-tools{display:flex;gap:8px}
+.pf-tools button{padding:10px 14px;border-radius:12px}
+.pf-card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:16px;box-shadow:var(--shadow);margin-top:14px}
+.pf-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.pf-head h3{margin:0;font-size:17px;color:var(--p)}
+.pf-head small{color:var(--muted);font-size:12px}
+.pf-toggle{padding:8px 14px;border-radius:999px;font-size:12px}
+#pfBody{margin-top:14px;display:flex;flex-direction:column;gap:16px}
+.pf-top{display:flex;gap:12px;align-items:stretch}
+.pf-photo{position:relative;width:112px;min-width:112px;min-height:128px;border:2px dashed #cdb893;border-radius:18px;background:#fbf6ec;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#8a6d3b;font-size:12px;font-weight:700;cursor:pointer;overflow:hidden;text-align:center;padding:8px}
+.pf-photo .pf-ph-icon{font-size:28px}
+.pf-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.pf-rm{position:absolute;top:6px;left:6px;width:26px;height:26px;border-radius:50%;border:0;background:rgba(0,0,0,.65);color:#fff;font-size:13px;padding:0;line-height:26px;z-index:2}
+.pf-fields{flex:1;display:flex;flex-direction:column;gap:9px;min-width:0}
+.pf-two{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.pf-field{display:flex;flex-direction:column;gap:4px;min-width:0}
+.pf-field label{font-size:12px;font-weight:700;color:#4a4148}
+.pf-field label i,.pf-sec-title i{color:#c0392b;font-style:normal}
+.pf-field input{width:100%;padding:12px;border-radius:12px;border:1.5px solid var(--line);background:#fff;font:inherit}
+.pf-field input:focus{outline:none;border-color:var(--p);box-shadow:0 0 0 3px rgba(75,33,72,.1)}
+.pf-sec{display:flex;flex-direction:column;gap:9px}
+.pf-sec-title{font-weight:800;font-size:14px;color:var(--p)}
+.pf-margin{font-size:12.5px;font-weight:700;min-height:18px}
+.pf-margin.ok{color:#1b7a4d}
+.pf-margin.bad{color:#b4372d}
+.pf-tabs{display:flex;background:#f1e8dc;border-radius:14px;padding:4px;gap:4px}
+.pf-tabs button{flex:1;border:0;background:transparent;border-radius:11px;padding:9px 4px;font-size:12.5px;font-weight:700;color:#6a5f55}
+.pf-tabs button.on{background:#fff;color:var(--p);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.pf-sizegrid{display:grid;gap:8px}
+.pf-sizegrid[data-g="num"]{grid-template-columns:repeat(5,1fr)}
+.pf-sizegrid[data-g="let"]{grid-template-columns:repeat(4,1fr)}
+.pf-sizegrid[data-g="free"]{grid-template-columns:1fr;max-width:180px}
+.pf-size{border:1.5px solid var(--line);border-radius:14px;padding:7px 4px 6px;text-align:center;background:#fff;transition:.15s}
+.pf-size label{display:block;font-weight:800;font-size:14px;margin-bottom:5px}
+.pf-size input{width:100%;text-align:center;border:0;background:#f6f1e8;border-radius:9px;padding:9px 0;font:inherit;font-weight:800;font-size:15px}
+.pf-size input:focus{outline:2px solid var(--p)}
+.pf-size.on{border-color:var(--p);background:#f8eff7}
+.pf-size.on input{background:#fff}
+.pf-total{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#1b1917,#302b26);color:#fff;border-radius:16px;padding:12px 14px}
+.pf-total small{display:block;opacity:.7;font-size:11px}
+.pf-total b{font-size:22px}
+.pf-total #pfBreak{flex:1;font-size:12px;opacity:.85;line-height:1.6;min-width:0}
+.pf-clear{padding:8px 12px!important;border-radius:10px!important;font-size:12px!important;background:rgba(255,255,255,.18)!important;color:#fff!important;border:0!important;box-shadow:none!important;min-width:64px}
+.pf-minrow .pf-field{max-width:200px}
+.pf-hint{font-size:12.5px;color:#8b6b3f;font-weight:700}
+.pf-hint:empty{display:none}
+.pf-save{width:100%;padding:15px;font-size:15px}
+.pf-save:disabled{opacity:.45}
+.pcard .pc-top{display:flex;gap:12px}
+.pc-thumb{width:76px;min-width:76px;height:76px;border-radius:14px;overflow:hidden;background:#f1e8dc;display:flex;align-items:center;justify-content:center;font-size:30px;text-decoration:none}
+.pc-thumb img{width:100%;height:100%;object-fit:cover}
+.pc-info{flex:1;min-width:0}
+.pc-stats{display:flex;gap:18px;margin-top:8px;flex-wrap:wrap}
+.pc-stats small{display:block;color:var(--muted);font-size:11px}
+.pc-stats b{font-size:14px}
+.pc-chips{display:flex;flex-wrap:wrap;gap:6px}
+.pc-chip{display:inline-flex;align-items:center;gap:6px;background:#f6f1e8;border-radius:10px;padding:4px 4px 4px 9px}
+.pc-chip b{font-size:12.5px}
+.pc-chip i{font-style:normal;background:#fff;border-radius:7px;padding:2px 8px;font-weight:800;font-size:12.5px}
+.pc-chip.low{background:#f8e0dc}
+.pc-chip.low i{color:#8d3028}
+.pc-details summary{cursor:pointer;font-size:13px;font-weight:700;color:var(--p);padding:6px 0;list-style:none}
+.pc-details summary::-webkit-details-marker{display:none}
+.pc-details summary::before{content:'▾ '}
+.pc-line{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--line)}
+.pc-line>div:first-child{flex:1;min-width:0}
+.pc-line small{display:block;color:var(--muted);font-size:11px}
+.pc-q{font-weight:800;min-width:32px;text-align:center}
+.pc-btns{display:flex;gap:6px}
+.pc-btns button{padding:7px 11px;border-radius:10px;font-size:12px}
+.pc-all{padding-top:8px}
+.pc-all button{width:100%;padding:10px;border-radius:12px}
+</style>
 </head>
 <body style="background:#fff!important"><div id="setup"><div class="modal"><h2>ربط Veronza بقاعدة البيانات</h2><p>الاتصال بـ Supabase مدمج وآمن داخل التطبيق. لا تحتاج لإدخال بيانات الاتصال.</p><input id="cfgUrl" placeholder="الاتصال مدمج تلقائيًا" disabled><input id="cfgKey" placeholder="المفتاح العام مدمج تلقائيًا" disabled><button class="primary" style="width:100%;margin-top:8px" onclick="saveConfig()">متابعة</button><div class="hint">بيانات الاتصال الأساسية مدمجة في نسخة Veronza.</div></div></div>
 <div id="login"><div class="modal"><h2>تسجيل الدخول إلى Veronza</h2><input id="loginEmail" type="email" placeholder="البريد الإلكتروني"><input id="loginPassword" type="password" placeholder="كلمة المرور"><button class="primary" style="width:100%;margin-top:8px" onclick="login()">دخول</button><button style="width:100%;margin-top:8px" onclick="passkeyLogin()">🔐 دخول سريع بـ Face ID</button><button style="width:100%;margin-top:8px" onclick="signup()">إنشاء حساب</button><div id="loginMsg" class="hint"></div></div></div>
@@ -518,16 +594,16 @@ transition:transform .2s ease,opacity .2s ease;opacity:0;pointer-events:none}
   </div>
 
   <div class="action-grid" id="orderCategoryGrid">
-    <button class="action-card" onclick="showView('orders');filterOrders('تم التسليم')"><span class="aicon">✅</span><b>تم التسليم</b><small>طلبات مُسلَّمة</small><span class="order-count" data-status="تم التسليم">0</span></button>
-    <button class="action-card" onclick="startScan()"><span class="aicon">⌁</span><b>مسح باركود</b><small>بالكاميرا</small></button>
     <button class="action-card" onclick="showView('orders');$('addOrderPanel').style.display=''"><span class="aicon">📦</span><b>أضف طلب</b><small>طلب وتوصيل</small></button>
-    <button class="action-card" onclick="showView('orders');filterOrders('all')"><span class="aicon">📋</span><b>كل الطلبات</b><small>عرض الكل</small><span class="order-count" data-status="all">0</span></button>
     <button class="action-card" onclick="showView('orders');filterOrders('تحت المراجعة')"><span class="aicon">🕓</span><b>تحت المراجعة</b><small>طلبات جديدة</small><span class="order-count" data-status="تحت المراجعة">0</span></button>
-    <button class="action-card" onclick="showView('orders');filterOrders('طلبات الشركة')"><span class="aicon">🏢</span><b>طلبات الشركة</b><small>طلبات الشركة</small><span class="order-count" data-status="طلبات الشركة">0</span></button>
     <button class="action-card" onclick="showView('orders');filterOrders('طلبات طرابلس')"><span class="aicon">📍</span><b>طلبات طرابلس</b><small>توصيل طرابلس</small><span class="order-count" data-status="طلبات طرابلس">0</span></button>
+    <button class="action-card" onclick="showView('orders');filterOrders('طلبات الشركة')"><span class="aicon">🏢</span><b>طلبات الشركة</b><small>طلبات الشركة</small><span class="order-count" data-status="طلبات الشركة">0</span></button>
     <button class="action-card" onclick="showView('orders');filterOrders('راجع')"><span class="aicon">↩</span><b>راجع</b><small>طلبات مرتجعة</small><span class="order-count" data-status="راجع">0</span></button>
     <button class="action-card" onclick="showView('orders');filterOrders('ملغي')"><span class="aicon">✕</span><b>ملغي</b><small>طلبات ملغاة</small><span class="order-count" data-status="ملغي">0</span></button>
+    <button class="action-card" onclick="showView('orders');filterOrders('تم التسليم')"><span class="aicon">✅</span><b>تم التسليم</b><small>طلبات مُسلَّمة</small><span class="order-count" data-status="تم التسليم">0</span></button>
     <button class="action-card" onclick="showView('orders');filterOrders('خالص')"><span class="aicon">🔒</span><b>خالص</b><small>مقفولة مع الشريك</small><span class="order-count" data-status="خالص">0</span></button>
+    <button class="action-card" onclick="showView('orders');filterOrders('all')"><span class="aicon">📋</span><b>كل الطلبات</b><small>عرض الكل</small><span class="order-count" data-status="all">0</span></button>
+    <button class="action-card" onclick="startScan()"><span class="aicon">⌁</span><b>مسح باركود</b><small>بالكاميرا</small></button>
   </div>
 
 </div>
@@ -536,11 +612,65 @@ transition:transform .2s ease,opacity .2s ease;opacity:0;pointer-events:none}
 
 <section id="products" class="view">
  <h2>المخزون والباركود</h2>
- <div class="panel"><div class="grid">
-  <input id="pName" placeholder="اسم المنتج"><input id="pModel" placeholder="الموديل"><input id="pSize" placeholder="المقاس"><input id="pColor" placeholder="اللون">
-  <input id="pBuy" type="number" min="0" step="0.01" placeholder="سعر الشراء"><input id="pSell" type="number" min="0" step="0.01" placeholder="سعر البيع"><input id="pQty" type="number" min="0" placeholder="الكمية"><input id="pMin" type="number" min="0" value="2" placeholder="حد التنبيه">
- </div><div class="actions"><button class="primary" onclick="addProduct()">إضافة المنتج + توليد باركود</button><button onclick="exportData()">تصدير</button><button onclick="document.getElementById('import').click()">استيراد</button><input id="import" type="file" accept=".json" style="display:none" onchange="importData(event)"></div></div>
- <div class="panel"><input id="productSearch" placeholder="🔎 بحث بالاسم أو الموديل أو الباركود..." oninput="renderProducts()"><div id="productRows" class="vcards"></div></div>
+ <div class="panel pf-searchbar">
+  <input id="productSearch" placeholder="🔎 بحث بالاسم أو الموديل أو اللون أو الباركود..." oninput="renderProducts()">
+  <div class="pf-tools"><button onclick="exportData()">تصدير</button><button onclick="document.getElementById('import').click()">استيراد</button><input id="import" type="file" accept=".json" style="display:none" onchange="importData(event)"></div>
+ </div>
+
+ <div class="pf-card">
+  <div class="pf-head">
+   <div><h3>إضافة منتج جديد</h3><small>يتولّد باركود مستقل لكل مقاس تلقائيًا</small></div>
+   <button type="button" class="pf-toggle" id="pfToggle" onclick="togglePF()">إخفاء</button>
+  </div>
+  <div id="pfBody">
+   <div class="pf-top">
+    <label class="pf-photo" id="pfPhoto">
+     <input type="file" id="pImage" accept="image/*" style="display:none" onchange="onProductImage(this)">
+     <span class="pf-ph-icon" id="pfPhIcon">📷</span><span id="pfPhotoText">إضافة صورة المنتج</span>
+     <img id="pfPreview" alt="" style="display:none">
+     <button type="button" class="pf-rm" id="pfRemove" style="display:none" onclick="clearProductImage(event)">✕</button>
+    </label>
+    <div class="pf-fields">
+     <div class="pf-field"><label for="pName">اسم المنتج <i>*</i></label><input id="pName" placeholder="مثال: هيرمز أبيض" oninput="pfUpdate()"></div>
+     <div class="pf-two">
+      <div class="pf-field"><label for="pModel">الموديل</label><input id="pModel" placeholder="مثال: 01" oninput="pfUpdate()"></div>
+      <div class="pf-field"><label for="pColor">اللون</label><input id="pColor" placeholder="مثال: أبيض" oninput="pfUpdate()"></div>
+     </div>
+    </div>
+   </div>
+
+   <div class="pf-sec">
+    <div class="pf-sec-title">الأسعار <i>*</i></div>
+    <div class="pf-two">
+     <div class="pf-field"><label for="pBuy">سعر الشراء (د.ل)</label><input id="pBuy" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0.00" oninput="pfUpdate()"></div>
+     <div class="pf-field"><label for="pSell">سعر البيع (د.ل)</label><input id="pSell" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0.00" oninput="pfUpdate()"></div>
+    </div>
+    <div class="pf-margin" id="pfMargin"></div>
+   </div>
+
+   <div class="pf-sec">
+    <div class="pf-sec-title">المقاسات والكميات <i>*</i></div>
+    <div class="pf-tabs" id="pfTabs">
+     <button type="button" data-g="num" class="on" onclick="pfTab('num')">أرقام 36–45</button>
+     <button type="button" data-g="let" onclick="pfTab('let')">حروف S–5XL</button>
+     <button type="button" data-g="free" onclick="pfTab('free')">بدون مقاس</button>
+    </div>
+    <div id="pfSizes"></div>
+    <div class="pf-total">
+     <div><small>إجمالي الكمية</small><b id="pfTotal">0</b></div>
+     <div id="pfBreak">لم تُحدَّد كميات المقاسات بعد</div>
+     <button type="button" class="pf-clear" onclick="pfClearSizes()">تصفير</button>
+    </div>
+   </div>
+
+   <div class="pf-sec pf-minrow"><div class="pf-field"><label for="pMin">حد التنبيه لكل مقاس</label><input id="pMin" type="number" inputmode="numeric" min="0" value="2"></div></div>
+
+   <div class="pf-hint" id="pfHint"></div>
+   <button type="button" class="primary pf-save" id="pfSave" onclick="saveProductForm()" disabled>حفظ المنتج وتوليد الباركود</button>
+  </div>
+ </div>
+
+ <div id="productRows" class="vcards"></div>
 </section>
 
 <section id="sales" class="view">
@@ -775,7 +905,7 @@ function vzGo(id){
 (function(){
   if(!('serviceWorker' in navigator)) return;
 
-  const BUILD_VERSION='V116';
+  const BUILD_VERSION='V117';
   const PENDING_KEY='veronza_pending_update_version';
   const APPLIED_KEY='veronza_applied_sw_version';
   const COMPLETE_KEY='veronza_update_complete_pending';
