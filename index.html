@@ -562,6 +562,44 @@ transition:transform .2s ease,opacity .2s ease;opacity:0;pointer-events:none}
 .pc-all{padding-top:8px}
 .pc-all button{width:100%;padding:10px;border-radius:12px}
 </style>
+<style id="veronza-orders-style">
+.ob-head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.ob-back{padding:10px 14px!important;border-radius:12px!important;white-space:nowrap}
+.ob-title h2{margin:0!important}
+.ob-title small{color:var(--muted)}
+.ob-search{width:100%;padding:13px;border-radius:14px;border:1.5px solid var(--line);margin-bottom:12px;font:inherit;background:#fff}
+.oc-items{background:#faf6ef;border-radius:12px;padding:9px 11px;display:flex;flex-direction:column;gap:5px;font-size:13px}
+.oc-line{display:flex;justify-content:space-between;gap:8px}
+.oc-line b{white-space:nowrap}
+.oc-more{color:var(--muted);font-size:12px}
+.of-picker{display:flex;gap:8px;align-items:stretch;position:relative}
+.of-picker>input:first-child{flex:1;min-width:0;padding:12px;border-radius:12px;border:1.5px solid var(--line);font:inherit}
+.of-picker>button{padding:0 16px!important;border-radius:12px!important;white-space:nowrap}
+.of-results{display:flex;flex-direction:column;gap:6px;max-height:280px;overflow:auto}
+.of-results:empty{display:none}
+.of-res{display:flex;justify-content:space-between;align-items:center;gap:10px;text-align:right;padding:10px 12px!important;border-radius:12px!important;border:1px solid var(--line)!important;background:#fff!important;color:inherit!important;box-shadow:none!important}
+.of-res small{display:block;color:var(--muted);font-size:11.5px;font-weight:600}
+.of-res b{font-size:13px}
+.of-res.out{opacity:.45}
+.of-items{display:flex;flex-direction:column;gap:8px}
+.of-item{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;padding:10px;border:1.5px solid var(--line);border-radius:14px;background:#fff}
+.of-item.over{border-color:#e0a39b;background:#fdf3f1}
+.of-i-info{flex:1 1 100%;min-width:0}
+.of-i-info b{font-size:13.5px;word-break:break-word}
+.of-i-info small{display:block;color:var(--muted);font-size:11.5px;margin-top:2px}
+.of-qty{display:flex;align-items:center;gap:6px}
+.of-qty button{width:32px!important;height:32px!important;border-radius:50%!important;padding:0!important;font-weight:800;font-size:16px;line-height:1}
+.of-qty span{min-width:22px;text-align:center;font-weight:800}
+.of-i-sum{flex:1;font-weight:800;font-size:13px;white-space:nowrap;text-align:left}
+.of-rm{width:30px!important;height:30px!important;border-radius:50%!important;padding:0!important;background:#f8e0dc!important;color:#8d3028!important;border:0!important;box-shadow:none!important}
+.of-empty{padding:16px;text-align:center;color:var(--muted);font-size:13px;border:1.5px dashed var(--line);border-radius:14px}
+.of-total{display:flex;align-items:flex-end;gap:12px}
+.of-sub{background:#faf6ef;border-radius:12px;padding:8px 12px;text-align:center;min-width:110px}
+.of-sub small{display:block;color:var(--muted);font-size:11px}
+.of-sub b{font-size:15px}
+.of-sync{padding:9px 12px!important;border-radius:10px!important;font-size:12.5px;align-self:flex-start}
+.of-note{color:var(--muted);font-size:12px;line-height:1.7}
+</style>
 </head>
 <body style="background:#fff!important"><div id="setup"><div class="modal"><h2>ربط Veronza بقاعدة البيانات</h2><p>الاتصال بـ Supabase مدمج وآمن داخل التطبيق. لا تحتاج لإدخال بيانات الاتصال.</p><input id="cfgUrl" placeholder="الاتصال مدمج تلقائيًا" disabled><input id="cfgKey" placeholder="المفتاح العام مدمج تلقائيًا" disabled><button class="primary" style="width:100%;margin-top:8px" onclick="saveConfig()">متابعة</button><div class="hint">بيانات الاتصال الأساسية مدمجة في نسخة Veronza.</div></div></div>
 <div id="login"><div class="modal"><h2>تسجيل الدخول إلى Veronza</h2><input id="loginEmail" type="email" placeholder="البريد الإلكتروني"><input id="loginPassword" type="password" placeholder="كلمة المرور"><button class="primary" style="width:100%;margin-top:8px" onclick="login()">دخول</button><button style="width:100%;margin-top:8px" onclick="passkeyLogin()">🔐 دخول سريع بـ Face ID</button><button style="width:100%;margin-top:8px" onclick="signup()">إنشاء حساب</button><div id="loginMsg" class="hint"></div></div></div>
@@ -594,15 +632,15 @@ transition:transform .2s ease,opacity .2s ease;opacity:0;pointer-events:none}
   </div>
 
   <div class="action-grid" id="orderCategoryGrid">
-    <button class="action-card" onclick="showView('orders');$('addOrderPanel').style.display=''"><span class="aicon">📦</span><b>أضف طلب</b><small>طلب وتوصيل</small></button>
-    <button class="action-card" onclick="showView('orders');filterOrders('تحت المراجعة')"><span class="aicon">🕓</span><b>تحت المراجعة</b><small>طلبات جديدة</small><span class="order-count" data-status="تحت المراجعة">0</span></button>
-    <button class="action-card" onclick="showView('orders');filterOrders('طلبات طرابلس')"><span class="aicon">📍</span><b>طلبات طرابلس</b><small>توصيل طرابلس</small><span class="order-count" data-status="طلبات طرابلس">0</span></button>
-    <button class="action-card" onclick="showView('orders');filterOrders('طلبات الشركة')"><span class="aicon">🏢</span><b>طلبات الشركة</b><small>طلبات الشركة</small><span class="order-count" data-status="طلبات الشركة">0</span></button>
-    <button class="action-card" onclick="showView('orders');filterOrders('راجع')"><span class="aicon">↩</span><b>راجع</b><small>طلبات مرتجعة</small><span class="order-count" data-status="راجع">0</span></button>
-    <button class="action-card" onclick="showView('orders');filterOrders('ملغي')"><span class="aicon">✕</span><b>ملغي</b><small>طلبات ملغاة</small><span class="order-count" data-status="ملغي">0</span></button>
-    <button class="action-card" onclick="showView('orders');filterOrders('تم التسليم')"><span class="aicon">✅</span><b>تم التسليم</b><small>طلبات مُسلَّمة</small><span class="order-count" data-status="تم التسليم">0</span></button>
-    <button class="action-card" onclick="showView('orders');filterOrders('خالص')"><span class="aicon">🔒</span><b>خالص</b><small>مقفولة مع الشريك</small><span class="order-count" data-status="خالص">0</span></button>
-    <button class="action-card" onclick="showView('orders');filterOrders('all')"><span class="aicon">📋</span><b>كل الطلبات</b><small>عرض الكل</small><span class="order-count" data-status="all">0</span></button>
+    <button class="action-card" onclick="openOrderForm()"><span class="aicon">📦</span><b>أضف طلب</b><small>طلب وتوصيل</small></button>
+    <button class="action-card" onclick="openOrderBox('تحت المراجعة')"><span class="aicon">🕓</span><b>تحت المراجعة</b><small>طلبات جديدة</small><span class="order-count" data-status="تحت المراجعة">0</span></button>
+    <button class="action-card" onclick="openOrderBox('طلبات طرابلس')"><span class="aicon">📍</span><b>طلبات طرابلس</b><small>توصيل طرابلس</small><span class="order-count" data-status="طلبات طرابلس">0</span></button>
+    <button class="action-card" onclick="openOrderBox('طلبات الشركة')"><span class="aicon">🏢</span><b>طلبات الشركة</b><small>طلبات الشركة</small><span class="order-count" data-status="طلبات الشركة">0</span></button>
+    <button class="action-card" onclick="openOrderBox('راجع')"><span class="aicon">↩</span><b>راجع</b><small>طلبات مرتجعة</small><span class="order-count" data-status="راجع">0</span></button>
+    <button class="action-card" onclick="openOrderBox('ملغي')"><span class="aicon">✕</span><b>ملغي</b><small>طلبات ملغاة</small><span class="order-count" data-status="ملغي">0</span></button>
+    <button class="action-card" onclick="openOrderBox('تم التسليم')"><span class="aicon">✅</span><b>تم التسليم</b><small>طلبات مُسلَّمة</small><span class="order-count" data-status="تم التسليم">0</span></button>
+    <button class="action-card" onclick="openOrderBox('خالص')"><span class="aicon">🔒</span><b>خالص</b><small>مقفولة مع الشريك</small><span class="order-count" data-status="خالص">0</span></button>
+    <button class="action-card" onclick="openOrderBox('all')"><span class="aicon">📋</span><b>كل الطلبات</b><small>عرض الكل</small><span class="order-count" data-status="all">0</span></button>
     <button class="action-card" onclick="startScan()"><span class="aicon">⌁</span><b>مسح باركود</b><small>بالكاميرا</small></button>
   </div>
 
@@ -678,11 +716,57 @@ transition:transform .2s ease,opacity .2s ease;opacity:0;pointer-events:none}
  <div class="panel"><h3>آخر المبيعات</h3><div class="tablewrap"><table><thead><tr><th>التاريخ</th><th>المنتج</th><th>الكمية</th><th>الإجمالي</th><th>العميل</th></tr></thead><tbody id="salesRows"></tbody></table></div></div>
 </section>
 
-<section id="orders" class="view"><h2>الطلبات والتوصيل</h2>
- <div class="panel"><div class="actions" id="orderFilterBar"><button class="primary" onclick="toggleAddOrderForm()">+ إضافة طلب</button><button data-status="all" class="active" onclick="filterOrders('all')">كل الطلبات</button><button data-status="تحت المراجعة" onclick="filterOrders('تحت المراجعة')">تحت المراجعة</button><button data-status="طلبات الشركة" onclick="filterOrders('طلبات الشركة')">طلبات الشركة</button><button data-status="طلبات طرابلس" onclick="filterOrders('طلبات طرابلس')">طلبات طرابلس</button><button data-status="راجع" onclick="filterOrders('راجع')">راجع</button><button data-status="ملغي" onclick="filterOrders('ملغي')">ملغي</button><button data-status="تم التسليم" onclick="filterOrders('تم التسليم')">تم التسليم</button><button data-status="خالص" onclick="filterOrders('خالص')">🔒 خالص</button></div></div>
- <div class="panel" id="addOrderPanel" style="display:none"><div class="grid"><input id="oNo" placeholder="رقم الطلب — تلقائي" readonly><input id="oCustomer" placeholder="اسم العميل *"><input id="oPhone" placeholder="الهاتف"><input id="oAddress" placeholder="العنوان"><input id="oBarcode" placeholder="باركود المنتج (للخصم من المخزون)"><button class="gold" onclick="startBarcodeScan('oBarcode')">مسح</button><input id="oQty" type="number" value="1" min="1" placeholder="الكمية"><input id="oTotal" type="number" min="0" step="0.01" placeholder="الإجمالي"><select id="oDelivery"><option>قيد التجهيز</option><option>خرج للتوصيل</option><option>تم التسليم</option><option>تعذر التسليم</option></select><input id="oNotes" placeholder="ملاحظات"></div>
- <div class="actions"><button class="primary" onclick="addOrder()">إضافة الطلب</button></div></div>
- <div class="panel"><input id="orderSearch" placeholder="🔎 بحث بالرقم أو العميل أو الهاتف" oninput="renderOrders()"><div id="orderRows" class="vcards"></div></div>
+<section id="orders" class="view">
+ <div id="orderListMode">
+  <div class="ob-head">
+   <button type="button" class="ob-back" onclick="showView('dashboard')">→ الرئيسية</button>
+   <div class="ob-title"><h2 id="orderBoxTitle">الطلبات</h2><small id="orderBoxCount"></small></div>
+  </div>
+  <input id="orderSearch" class="ob-search" placeholder="🔎 بحث بالرقم أو العميل أو الهاتف أو المنتج" oninput="renderOrders()">
+  <div id="orderRows" class="vcards"></div>
+ </div>
+
+ <div id="orderFormMode" style="display:none">
+  <div class="ob-head">
+   <button type="button" class="ob-back" onclick="closeOrderForm()">→ رجوع</button>
+   <div class="ob-title"><h2 id="ofTitle">طلب جديد</h2><small id="ofSub"></small></div>
+  </div>
+  <div class="pf-card">
+   <div class="pf-sec">
+    <div class="pf-sec-title">بيانات العميل</div>
+    <div class="pf-two">
+     <div class="pf-field"><label for="oCustomer">اسم العميل <i>*</i></label><input id="oCustomer" placeholder="الاسم" oninput="ofRender()"></div>
+     <div class="pf-field"><label for="oPhone">الهاتف <i>*</i></label><input id="oPhone" inputmode="tel" placeholder="09xxxxxxxx" oninput="ofRender()"></div>
+    </div>
+    <div class="pf-field"><label for="oAddress">العنوان</label><input id="oAddress" placeholder="المدينة والحي والشارع"></div>
+    <div class="pf-field"><label for="oNotes">ملاحظات</label><input id="oNotes" placeholder="مثال: الاتصال قبل التوصيل"></div>
+   </div>
+
+   <div class="pf-sec" style="margin-top:16px">
+    <div class="pf-sec-title">المنتجات <i>*</i></div>
+    <div class="of-picker">
+     <input id="oSearch" placeholder="ابحث بالاسم أو الموديل أو الباركود…" autocomplete="off" oninput="ofSearch()" onkeydown="ofKey(event)">
+     <button type="button" class="gold" onclick="ofScan()">📷 مسح</button>
+     <input id="oScanDone" readonly tabindex="-1" aria-hidden="true" onfocus="ofSearch()" style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px">
+    </div>
+    <div id="oResults" class="of-results"></div>
+    <div id="oItems" class="of-items"></div>
+   </div>
+
+   <div class="pf-sec" style="margin-top:16px">
+    <div class="pf-sec-title">الإجمالي</div>
+    <div class="of-total">
+     <div class="pf-field" style="flex:1"><label for="oTotal">الإجمالي النهائي (د.ل)</label><input id="oTotal" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0.00" oninput="ofTotalManual()"></div>
+     <div class="of-sub"><small>مجموع المنتجات</small><b id="ofSubtotal">0</b></div>
+    </div>
+    <button type="button" class="of-sync" id="ofSync" onclick="ofSyncTotal()" style="display:none">اجعل الإجمالي = مجموع المنتجات</button>
+    <small class="of-note">يتحدّث الإجمالي تلقائيًا مع المنتجات، وتقدر تعدّله (مثل إضافة رسوم التوصيل).</small>
+   </div>
+
+   <div class="pf-hint" id="ofHint" style="margin-top:12px"></div>
+   <button type="button" class="primary pf-save" id="ofSave" onclick="ofSave()" disabled style="margin-top:12px">حفظ الطلب</button>
+  </div>
+ </div>
 </section>
 <section id="returns" class="view"><h2>المرتجعات</h2><div class="panel"><div class="grid"><input id="rBarcode" placeholder="باركود المنتج"><input id="rQty" type="number" value="1" min="1"><input id="rCustomer" placeholder="العميل"><input id="rReason" placeholder="سبب المرتجع"></div><div class="actions"><button class="primary" onclick="addReturn()">تسجيل المرتجع وإرجاع الكمية للمخزون</button><button class="gold" onclick="startReturnScan()">فتح الكاميرا</button></div></div><div class="panel"><div class="tablewrap"><table><thead><tr><th>التاريخ</th><th>الباركود</th><th>المنتج</th><th>الكمية</th><th>المبلغ</th><th>السبب</th></tr></thead><tbody id="returnRows"></tbody></table></div></div></section>
 <section id="customers" class="view"><h2>العملاء</h2><div class="panel"><div class="grid"><input id="cName" placeholder="اسم العميل"><input id="cPhone" placeholder="الهاتف"><input id="cAddress" placeholder="العنوان"><input id="cNotes" placeholder="ملاحظات"><button class="primary" onclick="addCustomer()">إضافة عميل</button></div><div class="filters"><input id="customerSearch" placeholder="🔎 بحث باسم أو هاتف" oninput="renderCustomers()"><button onclick="clearCustomerFilters()">مسح الفلاتر</button></div><div class="tablewrap"><table><thead><tr><th><button class="sortbtn" onclick="sortCustomers('name')">الاسم ↕</button></th><th>الهاتف</th><th><button class="sortbtn" onclick="sortCustomers('orders')">عدد الطلبات ↕</button></th><th><button class="sortbtn" onclick="sortCustomers('total_purchases')">إجمالي المشتريات ↕</button></th><th><button class="sortbtn" onclick="sortCustomers('last_purchase_at')">آخر عملية شراء ↕</button></th></tr></thead><tbody id="customerRows"></tbody></table></div></div></section>
