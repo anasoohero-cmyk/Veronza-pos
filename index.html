@@ -453,6 +453,39 @@ transition:transform .2s ease,opacity .2s ease;opacity:0;pointer-events:none}
 </style>
 
 
+<style id="veronza-partner-style">
+.lock-badge{display:inline-block;padding:6px 10px;border-radius:10px;background:#1b1917;color:#f2dfb9;font-weight:800;white-space:nowrap}
+.partner-share-card{background:linear-gradient(135deg,#f0d9a7,#caa76a)!important}
+.partner-share-card span,.partner-share-card b{color:#1d1813!important}
+#partner .badge{font-weight:700}
+#partner .panel small{color:#6f675f;line-height:1.8}
+</style>
+<style id="veronza-cards-style">
+.vcards{display:grid;grid-template-columns:1fr;gap:12px;margin-top:14px}
+@media(min-width:720px){.vcards{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1040px){.vcards{grid-template-columns:repeat(3,1fr)}}
+.vcards .empty{grid-column:1/-1}
+.vcard{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;box-shadow:0 4px 14px rgba(40,30,20,.05);display:flex;flex-direction:column;gap:11px;min-width:0}
+.vcard.locked{border-color:#caa76a;background:linear-gradient(180deg,#fffdf8,#fbf5ea)}
+.vcard.is-low{border-color:#efc8c1}
+.vc-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.vc-title{font-weight:800;font-size:15px;line-height:1.5;word-break:break-word}
+.vc-sub{color:var(--muted);font-size:12px;margin-top:2px;line-height:1.6}
+.vc-price{font-weight:800;font-size:16px;white-space:nowrap;color:var(--p)}
+.vc-pills{display:flex;gap:6px;flex-wrap:wrap}
+.vc-pill{display:inline-block;padding:4px 10px;border-radius:999px;font-size:11.5px;font-weight:800;white-space:nowrap}
+.vc-meta{display:grid;grid-template-columns:1fr 1fr;gap:9px 12px;font-size:13px}
+.vc-meta>div{min-width:0}
+.vc-meta span{display:block;color:var(--muted);font-size:11px;margin-bottom:1px}
+.vc-meta b,.vc-meta a{font-weight:700;word-break:break-word}
+.vc-meta a{color:var(--p);text-decoration:none}
+.vc-meta .wide{grid-column:1/-1}
+.vc-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end;border-top:1px solid var(--line);padding-top:11px}
+.vc-field{flex:1 1 135px;min-width:0}
+.vc-field label{display:block;font-size:11px;color:var(--muted);margin-bottom:3px}
+.vc-field select{width:100%;padding:10px;border-radius:11px;border:1px solid var(--line);background:#fff}
+.vc-actions>button{padding:10px 15px;border-radius:11px}
+</style>
 </head>
 <body style="background:#fff!important"><div id="setup"><div class="modal"><h2>ربط Veronza بقاعدة البيانات</h2><p>الاتصال بـ Supabase مدمج وآمن داخل التطبيق. لا تحتاج لإدخال بيانات الاتصال.</p><input id="cfgUrl" placeholder="الاتصال مدمج تلقائيًا" disabled><input id="cfgKey" placeholder="المفتاح العام مدمج تلقائيًا" disabled><button class="primary" style="width:100%;margin-top:8px" onclick="saveConfig()">متابعة</button><div class="hint">بيانات الاتصال الأساسية مدمجة في نسخة Veronza.</div></div></div>
 <div id="login"><div class="modal"><h2>تسجيل الدخول إلى Veronza</h2><input id="loginEmail" type="email" placeholder="البريد الإلكتروني"><input id="loginPassword" type="password" placeholder="كلمة المرور"><button class="primary" style="width:100%;margin-top:8px" onclick="login()">دخول</button><button style="width:100%;margin-top:8px" onclick="passkeyLogin()">🔐 دخول سريع بـ Face ID</button><button style="width:100%;margin-top:8px" onclick="signup()">إنشاء حساب</button><div id="loginMsg" class="hint"></div></div></div>
@@ -466,7 +499,7 @@ transition:transform .2s ease,opacity .2s ease;opacity:0;pointer-events:none}
  <nav id="nav" class="nav">
   <button class="active" data-v="dashboard">⌂ الرئيسية</button><button data-v="products">▣ المخزون</button>
   <button data-v="sales">🛒 المبيعات</button><button data-v="orders">📦 الطلبات والتوصيل</button><button data-v="returns">↩ المرتجعات</button>
-  <button data-v="suppliers">🚚 الموردون</button><button data-v="customers">♙ العملاء</button><button data-v="expenses">💰 المصروفات</button><button data-v="reports">▥ التقارير</button><button data-v="users" style="display:none">👤 المستخدمون</button>
+  <button data-v="suppliers">🚚 الموردون</button><button data-v="customers">♙ العملاء</button><button data-v="expenses">💰 المصروفات</button><button data-v="reports">▥ التقارير</button><button data-v="partner" style="display:none">🤝 حصة الشريك</button><button data-v="users" style="display:none">👤 المستخدمون</button>
  </nav>
 </header>
 
@@ -494,6 +527,7 @@ transition:transform .2s ease,opacity .2s ease;opacity:0;pointer-events:none}
     <button class="action-card" onclick="showView('orders');filterOrders('طلبات طرابلس')"><span class="aicon">📍</span><b>طلبات طرابلس</b><small>توصيل طرابلس</small><span class="order-count" data-status="طلبات طرابلس">0</span></button>
     <button class="action-card" onclick="showView('orders');filterOrders('راجع')"><span class="aicon">↩</span><b>راجع</b><small>طلبات مرتجعة</small><span class="order-count" data-status="راجع">0</span></button>
     <button class="action-card" onclick="showView('orders');filterOrders('ملغي')"><span class="aicon">✕</span><b>ملغي</b><small>طلبات ملغاة</small><span class="order-count" data-status="ملغي">0</span></button>
+    <button class="action-card" onclick="showView('orders');filterOrders('خالص')"><span class="aicon">🔒</span><b>خالص</b><small>مقفولة مع الشريك</small><span class="order-count" data-status="خالص">0</span></button>
   </div>
 
 </div>
@@ -506,7 +540,7 @@ transition:transform .2s ease,opacity .2s ease;opacity:0;pointer-events:none}
   <input id="pName" placeholder="اسم المنتج"><input id="pModel" placeholder="الموديل"><input id="pSize" placeholder="المقاس"><input id="pColor" placeholder="اللون">
   <input id="pBuy" type="number" min="0" step="0.01" placeholder="سعر الشراء"><input id="pSell" type="number" min="0" step="0.01" placeholder="سعر البيع"><input id="pQty" type="number" min="0" placeholder="الكمية"><input id="pMin" type="number" min="0" value="2" placeholder="حد التنبيه">
  </div><div class="actions"><button class="primary" onclick="addProduct()">إضافة المنتج + توليد باركود</button><button onclick="exportData()">تصدير</button><button onclick="document.getElementById('import').click()">استيراد</button><input id="import" type="file" accept=".json" style="display:none" onchange="importData(event)"></div></div>
- <div class="panel"><input id="productSearch" placeholder="🔎 بحث بالاسم أو الموديل أو الباركود..." oninput="renderProducts()"><div class="tablewrap"><table><thead><tr><th>الباركود</th><th>المنتج</th><th>الموديل</th><th>المقاس</th><th>اللون</th><th>الكمية</th><th>الشراء</th><th>البيع</th><th>إجراء</th></tr></thead><tbody id="productRows"></tbody></table></div></div>
+ <div class="panel"><input id="productSearch" placeholder="🔎 بحث بالاسم أو الموديل أو الباركود..." oninput="renderProducts()"><div id="productRows" class="vcards"></div></div>
 </section>
 
 <section id="sales" class="view">
@@ -515,16 +549,31 @@ transition:transform .2s ease,opacity .2s ease;opacity:0;pointer-events:none}
 </section>
 
 <section id="orders" class="view"><h2>الطلبات والتوصيل</h2>
- <div class="panel"><div class="actions" id="orderFilterBar"><button class="primary" onclick="toggleAddOrderForm()">+ إضافة طلب</button><button data-status="all" class="active" onclick="filterOrders('all')">كل الطلبات</button><button data-status="تحت المراجعة" onclick="filterOrders('تحت المراجعة')">تحت المراجعة</button><button data-status="طلبات الشركة" onclick="filterOrders('طلبات الشركة')">طلبات الشركة</button><button data-status="طلبات طرابلس" onclick="filterOrders('طلبات طرابلس')">طلبات طرابلس</button><button data-status="راجع" onclick="filterOrders('راجع')">راجع</button><button data-status="ملغي" onclick="filterOrders('ملغي')">ملغي</button><button data-status="تم التسليم" onclick="filterOrders('تم التسليم')">تم التسليم</button></div></div>
+ <div class="panel"><div class="actions" id="orderFilterBar"><button class="primary" onclick="toggleAddOrderForm()">+ إضافة طلب</button><button data-status="all" class="active" onclick="filterOrders('all')">كل الطلبات</button><button data-status="تحت المراجعة" onclick="filterOrders('تحت المراجعة')">تحت المراجعة</button><button data-status="طلبات الشركة" onclick="filterOrders('طلبات الشركة')">طلبات الشركة</button><button data-status="طلبات طرابلس" onclick="filterOrders('طلبات طرابلس')">طلبات طرابلس</button><button data-status="راجع" onclick="filterOrders('راجع')">راجع</button><button data-status="ملغي" onclick="filterOrders('ملغي')">ملغي</button><button data-status="تم التسليم" onclick="filterOrders('تم التسليم')">تم التسليم</button><button data-status="خالص" onclick="filterOrders('خالص')">🔒 خالص</button></div></div>
  <div class="panel" id="addOrderPanel" style="display:none"><div class="grid"><input id="oNo" placeholder="رقم الطلب — تلقائي" readonly><input id="oCustomer" placeholder="اسم العميل *"><input id="oPhone" placeholder="الهاتف"><input id="oAddress" placeholder="العنوان"><input id="oBarcode" placeholder="باركود المنتج (للخصم من المخزون)"><button class="gold" onclick="startBarcodeScan('oBarcode')">مسح</button><input id="oQty" type="number" value="1" min="1" placeholder="الكمية"><input id="oTotal" type="number" min="0" step="0.01" placeholder="الإجمالي"><select id="oDelivery"><option>قيد التجهيز</option><option>خرج للتوصيل</option><option>تم التسليم</option><option>تعذر التسليم</option></select><input id="oNotes" placeholder="ملاحظات"></div>
  <div class="actions"><button class="primary" onclick="addOrder()">إضافة الطلب</button></div></div>
- <div class="panel"><input id="orderSearch" placeholder="🔎 بحث بالرقم أو العميل أو الهاتف" oninput="renderOrders()"><div class="tablewrap"><table><thead><tr><th>الطلب</th><th>العميل</th><th>الهاتف</th><th>العنوان</th><th>الإجمالي</th><th>الحالة</th><th>التوصيل</th><th>التاريخ</th><th>ملاحظات</th><th>إجراء</th></tr></thead><tbody id="orderRows"></tbody></table></div></div>
+ <div class="panel"><input id="orderSearch" placeholder="🔎 بحث بالرقم أو العميل أو الهاتف" oninput="renderOrders()"><div id="orderRows" class="vcards"></div></div>
 </section>
 <section id="returns" class="view"><h2>المرتجعات</h2><div class="panel"><div class="grid"><input id="rBarcode" placeholder="باركود المنتج"><input id="rQty" type="number" value="1" min="1"><input id="rCustomer" placeholder="العميل"><input id="rReason" placeholder="سبب المرتجع"></div><div class="actions"><button class="primary" onclick="addReturn()">تسجيل المرتجع وإرجاع الكمية للمخزون</button><button class="gold" onclick="startReturnScan()">فتح الكاميرا</button></div></div><div class="panel"><div class="tablewrap"><table><thead><tr><th>التاريخ</th><th>الباركود</th><th>المنتج</th><th>الكمية</th><th>المبلغ</th><th>السبب</th></tr></thead><tbody id="returnRows"></tbody></table></div></div></section>
 <section id="customers" class="view"><h2>العملاء</h2><div class="panel"><div class="grid"><input id="cName" placeholder="اسم العميل"><input id="cPhone" placeholder="الهاتف"><input id="cAddress" placeholder="العنوان"><input id="cNotes" placeholder="ملاحظات"><button class="primary" onclick="addCustomer()">إضافة عميل</button></div><div class="filters"><input id="customerSearch" placeholder="🔎 بحث باسم أو هاتف" oninput="renderCustomers()"><button onclick="clearCustomerFilters()">مسح الفلاتر</button></div><div class="tablewrap"><table><thead><tr><th><button class="sortbtn" onclick="sortCustomers('name')">الاسم ↕</button></th><th>الهاتف</th><th><button class="sortbtn" onclick="sortCustomers('orders')">عدد الطلبات ↕</button></th><th><button class="sortbtn" onclick="sortCustomers('total_purchases')">إجمالي المشتريات ↕</button></th><th><button class="sortbtn" onclick="sortCustomers('last_purchase_at')">آخر عملية شراء ↕</button></th></tr></thead><tbody id="customerRows"></tbody></table></div></div></section>
 <section id="suppliers" class="view"><h2>الموردون</h2><div class="panel"><div class="grid"><input id="sName" placeholder="اسم المورد"><input id="sPhone" placeholder="الهاتف"><button class="primary" onclick="addSupplier()">إضافة مورد</button></div><div class="tablewrap"><table><thead><tr><th>المورد</th><th>الهاتف</th></tr></thead><tbody id="supplierRows"></tbody></table></div></div></section>
 <section id="expenses" class="view"><h2>المصروفات</h2><div class="panel"><div class="grid"><select id="eType"><option value="شخصي">مصروف شخصي</option><option value="متجر">مصروف المتجر</option></select><input id="eAmount" type="number" placeholder="المبلغ" min="0" step="0.01"><input id="eNotes" placeholder="ملاحظات"></div><div class="actions"><button class="primary" onclick="addExpense()">إضافة مصروف</button></div></div><div class="cards"><div class="card"><span>إجمالي مصروفاتي الشخصية</span><b id="expPersonalTotal">0</b></div><div class="card"><span>إجمالي مصروفات المتجر</span><b id="expStoreTotal">0</b></div></div><div class="panel"><div class="tablewrap"><table><thead><tr><th>التاريخ</th><th>النوع</th><th>المبلغ</th><th>ملاحظات</th><th></th></tr></thead><tbody id="expenseRows"></tbody></table></div></div></section>
 <section id="reports" class="view"><h2>التقارير</h2><div class="panel"><div class="filters"><label>الفترة <select id="reportPeriod" onchange="renderReports()"><option value="all">كل المبيعات</option><option value="today">اليوم</option><option value="7d">آخر 7 أيام</option><option value="month">هذا الشهر</option></select></label><span id="reportPeriodLabel">كل المبيعات</span></div></div><div class="cards"><div class="card"><span>إجمالي المبيعات</span><b id="rptTotal">0</b></div><div class="card"><span>إجمالي الربح</span><b id="rptProfit">0</b></div><div class="card"><span>صافي الربح (بعد مصروفات المتجر)</span><b id="rptNetProfit">0</b></div><div class="card"><span>عدد القطع المباعة</span><b id="rptQty">0</b></div><div class="card"><span>متوسط العملية</span><b id="rptAvg">0</b></div><div class="card"><span>قيمة المخزون بالشراء</span><b id="rptStockCost">0</b></div><div class="card"><span>قيمة المخزون بسعر البيع</span><b id="rptStockPotential">0</b></div></div><div class="panel"><h3>أفضل المنتجات حسب المبيعات</h3><div class="tablewrap"><table><thead><tr><th>المنتج</th><th>القطع المباعة</th></tr></thead><tbody id="reportRows"></tbody></table></div></div></section>
+<section id="partner" class="view"><h2>حصة الشريك</h2>
+ <div class="panel"><div class="filters"><label>الشهر <select id="partnerMonth" onchange="renderPartner()"></select></label> <span id="partnerState" class="badge"></span></div></div>
+ <div id="partnerWarn" class="panel alert" style="display:none"></div>
+ <div class="cards">
+  <div class="card"><span>ربح المبيعات</span><b id="ptSales">0</b></div>
+  <div class="card"><span>ربح الطلبات الخالصة</span><b id="ptOrders">0</b></div>
+  <div class="card"><span>ربح المرتجعات المعكوس</span><b id="ptReturns">0</b></div>
+  <div class="card"><span>مصروفات المتجر</span><b id="ptExpenses">0</b></div>
+  <div class="card"><span>صافي الربح بعد المصاريف</span><b id="ptNet">0</b></div>
+  <div class="card partner-share-card"><span id="ptShareLabel">حصة الشريك</span><b id="ptShare">0</b></div>
+ </div>
+ <div class="panel" id="partnerOwnerActions" style="display:none"><div class="actions"><button class="gold" id="partnerCloseBtn" onclick="closePartnerMonth()">إقفال هذا الشهر</button></div><small>الإقفال يثبّت الأرقام ويمنع تعديل مصروفات الشهر.</small></div>
+ <div class="panel"><h3>الأشهر المقفولة</h3><div class="tablewrap"><table><thead><tr><th>الشهر</th><th>صافي الربح</th><th>نسبة الشريك</th><th>حصة الشريك</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody id="partnerRows"></tbody></table></div></div>
+ <div class="panel"><small>صافي الربح = ربح المبيعات + ربح الطلبات الخالصة − ربح المرتجعات المعكوس − مصروفات المتجر. المصروفات الشخصية لا تُحسب. حصة الشريك 30% من الصافي، وتكون صفرًا إذا كان الشهر بخسارة.</small></div>
+</section>
 <section id="users" class="view"><h2>المستخدمون والصلاحيات</h2>
  <div id="usersDenied" class="empty" style="display:none;padding:20px">هذه الصفحة للمالك فقط</div>
  <div id="usersContent">
@@ -539,6 +588,7 @@ transition:transform .2s ease,opacity .2s ease;opacity:0;pointer-events:none}
     <tr><td>العملاء</td><td><input type="checkbox" id="uPerm_customers_view"></td><td><input type="checkbox" id="uPerm_customers_add"></td><td><input type="checkbox" id="uPerm_customers_edit"></td></tr>
     <tr><td>الموردون</td><td><input type="checkbox" id="uPerm_suppliers_view"></td><td><input type="checkbox" id="uPerm_suppliers_add"></td><td><input type="checkbox" id="uPerm_suppliers_edit"></td></tr>
     <tr><td>المصروفات</td><td><input type="checkbox" id="uPerm_expenses_view"></td><td><input type="checkbox" id="uPerm_expenses_add"></td><td><input type="checkbox" id="uPerm_expenses_edit"></td></tr>
+    <tr><td>التقارير (حصة الشريك)</td><td><input type="checkbox" id="uPerm_reports_view"></td><td></td><td></td></tr>
    </tbody></table></div>
    <div class="actions"><button class="primary" onclick="saveStaffPermission()">حفظ الصلاحيات</button></div>
   </div>
@@ -674,6 +724,7 @@ window.veronzaRefreshData = async function(){
       <button class="vz-menu-item" data-menu-view="suppliers" onclick="vzGo('suppliers')"><span class="mi">🏷️</span>الموردون</button>
       <button class="vz-menu-item" data-menu-view="expenses" onclick="vzGo('expenses')"><span class="mi">💰</span>المصروفات</button>
       <button class="vz-menu-item" data-menu-view="reports" onclick="vzGo('reports')"><span class="mi">📊</span>التقارير</button>
+      <button class="vz-menu-item" data-menu-view="partner" onclick="vzGo('partner')" style="display:none"><span class="mi">🤝</span>حصة الشريك</button>
       <button class="vz-menu-item" data-menu-view="users" onclick="vzGo('users')" style="display:none"><span class="mi">👤</span>المستخدمون</button>
     </div>
     <div class="vz-menu-footer">Veronza — إدارة المخزون والمبيعات والتوصيل</div>
@@ -724,7 +775,7 @@ function vzGo(id){
 (function(){
   if(!('serviceWorker' in navigator)) return;
 
-  const BUILD_VERSION='V113';
+  const BUILD_VERSION='V115';
   const PENDING_KEY='veronza_pending_update_version';
   const APPLIED_KEY='veronza_applied_sw_version';
   const COMPLETE_KEY='veronza_update_complete_pending';
