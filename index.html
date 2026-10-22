@@ -600,6 +600,22 @@ transition:transform .2s ease,opacity .2s ease;opacity:0;pointer-events:none}
 .of-sync{padding:9px 12px!important;border-radius:10px!important;font-size:12.5px;align-self:flex-start}
 .of-note{color:var(--muted);font-size:12px;line-height:1.7}
 </style>
+<style id="veronza-users-style">
+.up-presets{display:flex;flex-wrap:wrap;gap:8px}
+.up-preset{padding:9px 13px!important;border-radius:999px!important;font-size:12.5px;font-weight:700;background:#fbf6ec!important;border:1.5px solid #e3d3b3!important;color:#6a4f1d!important;box-shadow:none!important}
+.up-rows{display:flex;flex-direction:column}
+.up-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 0;border-top:1px solid var(--line);flex-wrap:wrap}
+.up-row:first-child{border-top:0}
+.up-row>b{font-size:14px}
+.up-toggles{display:flex;gap:6px}
+.up-chip{position:relative;display:inline-block}
+.up-chip input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+.up-chip span{display:inline-block;padding:8px 13px;border-radius:999px;border:1.5px solid var(--line);font-size:12.5px;font-weight:700;background:#fff;color:#6a5f55}
+.up-chip input:checked+span{background:var(--p);color:#fff;border-color:var(--p)}
+.up-tags{display:flex;flex-wrap:wrap;gap:6px}
+.up-tag{background:#f6f1e8;border-radius:10px;padding:5px 10px;font-size:12px;font-weight:700}
+.up-tag.none{color:var(--muted)}
+</style>
 </head>
 <body style="background:#fff!important"><div id="setup"><div class="modal"><h2>ربط Veronza بقاعدة البيانات</h2><p>الاتصال بـ Supabase مدمج وآمن داخل التطبيق. لا تحتاج لإدخال بيانات الاتصال.</p><input id="cfgUrl" placeholder="الاتصال مدمج تلقائيًا" disabled><input id="cfgKey" placeholder="المفتاح العام مدمج تلقائيًا" disabled><button class="primary" style="width:100%;margin-top:8px" onclick="saveConfig()">متابعة</button><div class="hint">بيانات الاتصال الأساسية مدمجة في نسخة Veronza.</div></div></div>
 <div id="login"><div class="modal"><h2>تسجيل الدخول إلى Veronza</h2><input id="loginEmail" type="email" placeholder="البريد الإلكتروني"><input id="loginPassword" type="password" placeholder="كلمة المرور"><button class="primary" style="width:100%;margin-top:8px" onclick="login()">دخول</button><button style="width:100%;margin-top:8px" onclick="passkeyLogin()">🔐 دخول سريع بـ Face ID</button><button style="width:100%;margin-top:8px" onclick="signup()">إنشاء حساب</button><div id="loginMsg" class="hint"></div></div></div>
@@ -791,25 +807,40 @@ transition:transform .2s ease,opacity .2s ease;opacity:0;pointer-events:none}
 <section id="users" class="view"><h2>المستخدمون والصلاحيات</h2>
  <div id="usersDenied" class="empty" style="display:none;padding:20px">هذه الصفحة للمالك فقط</div>
  <div id="usersContent">
-  <div class="panel">
-   <h3>إضافة / تعديل صلاحيات موظف</h3>
-   <div class="grid"><input id="uEmail" placeholder="البريد الإلكتروني للموظف (يجب أن يكون له حساب مسجّل مسبقًا)"></div>
-   <div class="tablewrap"><table><thead><tr><th>الصنف</th><th>قراءة</th><th>إضافة</th><th>تعديل</th></tr></thead><tbody>
-    <tr><td>المخزون</td><td><input type="checkbox" id="uPerm_products_view"></td><td><input type="checkbox" id="uPerm_products_add"></td><td><input type="checkbox" id="uPerm_products_edit"></td></tr>
-    <tr><td>المبيعات</td><td><input type="checkbox" id="uPerm_sales_view"></td><td><input type="checkbox" id="uPerm_sales_add"></td><td><input type="checkbox" id="uPerm_sales_edit"></td></tr>
-    <tr><td>الطلبات</td><td><input type="checkbox" id="uPerm_orders_view"></td><td><input type="checkbox" id="uPerm_orders_add"></td><td><input type="checkbox" id="uPerm_orders_edit"></td></tr>
-    <tr><td>المرتجعات</td><td><input type="checkbox" id="uPerm_returns_view"></td><td><input type="checkbox" id="uPerm_returns_add"></td><td><input type="checkbox" id="uPerm_returns_edit"></td></tr>
-    <tr><td>العملاء</td><td><input type="checkbox" id="uPerm_customers_view"></td><td><input type="checkbox" id="uPerm_customers_add"></td><td><input type="checkbox" id="uPerm_customers_edit"></td></tr>
-    <tr><td>الموردون</td><td><input type="checkbox" id="uPerm_suppliers_view"></td><td><input type="checkbox" id="uPerm_suppliers_add"></td><td><input type="checkbox" id="uPerm_suppliers_edit"></td></tr>
-    <tr><td>المصروفات</td><td><input type="checkbox" id="uPerm_expenses_view"></td><td><input type="checkbox" id="uPerm_expenses_add"></td><td><input type="checkbox" id="uPerm_expenses_edit"></td></tr>
-    <tr><td>التقارير (حصة الشريك)</td><td><input type="checkbox" id="uPerm_reports_view"></td><td></td><td></td></tr>
-   </tbody></table></div>
-   <div class="actions"><button class="primary" onclick="saveStaffPermission()">حفظ الصلاحيات</button></div>
+  <div class="pf-card">
+   <div class="pf-head"><div><h3 id="uFormTitle">إضافة موظف أو شريك</h3><small>أنشئ له حساب وحدد صلاحياته من هنا مباشرة</small></div></div>
+   <div class="pf-sec" style="margin-top:14px">
+    <div class="pf-field"><label for="uEmail">البريد الإلكتروني <i>*</i></label><input id="uEmail" type="email" inputmode="email" autocapitalize="off" autocomplete="off" dir="ltr" placeholder="name@example.com"></div>
+    <div class="pf-field"><label for="uPassword">كلمة المرور</label><input id="uPassword" type="text" autocapitalize="off" autocomplete="off" dir="ltr" placeholder="6 أحرف على الأقل — اتركها فارغة إذا كان له حساب" oninput="uUpdateBtn()"></div>
+    <small class="of-note">بكتابة كلمة مرور يُنشأ الحساب ويتفعّل فورًا بدون رسالة تأكيد، ويقدر يدخل بها مباشرة. ولو الحساب موجود تتحدّث كلمة مروره.</small>
+   </div>
+   <div class="pf-sec" style="margin-top:16px">
+    <div class="pf-sec-title">قوالب سريعة</div>
+    <div class="up-presets">
+     <button type="button" class="up-preset" onclick="applyPreset('partner')">🤝 شريك — التقارير فقط</button>
+     <button type="button" class="up-preset" onclick="applyPreset('cashier')">🧾 كاشير</button>
+     <button type="button" class="up-preset" onclick="applyPreset('orders')">📦 موظف طلبات</button>
+     <button type="button" class="up-preset" onclick="applyPreset('all')">✅ الكل</button>
+     <button type="button" class="up-preset" onclick="applyPreset('none')">مسح</button>
+    </div>
+   </div>
+   <div class="pf-sec" style="margin-top:16px">
+    <div class="pf-sec-title">الصلاحيات</div>
+    <div class="up-rows">
+   <div class="up-row"><b>المخزون</b><div class="up-toggles"><label class="up-chip"><input type="checkbox" id="uPerm_products_view"><span>قراءة</span></label><label class="up-chip"><input type="checkbox" id="uPerm_products_add"><span>إضافة</span></label><label class="up-chip"><input type="checkbox" id="uPerm_products_edit"><span>تعديل</span></label></div></div>
+   <div class="up-row"><b>المبيعات</b><div class="up-toggles"><label class="up-chip"><input type="checkbox" id="uPerm_sales_view"><span>قراءة</span></label><label class="up-chip"><input type="checkbox" id="uPerm_sales_add"><span>إضافة</span></label><label class="up-chip"><input type="checkbox" id="uPerm_sales_edit"><span>تعديل</span></label></div></div>
+   <div class="up-row"><b>الطلبات</b><div class="up-toggles"><label class="up-chip"><input type="checkbox" id="uPerm_orders_view"><span>قراءة</span></label><label class="up-chip"><input type="checkbox" id="uPerm_orders_add"><span>إضافة</span></label><label class="up-chip"><input type="checkbox" id="uPerm_orders_edit"><span>تعديل</span></label></div></div>
+   <div class="up-row"><b>المرتجعات</b><div class="up-toggles"><label class="up-chip"><input type="checkbox" id="uPerm_returns_view"><span>قراءة</span></label><label class="up-chip"><input type="checkbox" id="uPerm_returns_add"><span>إضافة</span></label><label class="up-chip"><input type="checkbox" id="uPerm_returns_edit"><span>تعديل</span></label></div></div>
+   <div class="up-row"><b>العملاء</b><div class="up-toggles"><label class="up-chip"><input type="checkbox" id="uPerm_customers_view"><span>قراءة</span></label><label class="up-chip"><input type="checkbox" id="uPerm_customers_add"><span>إضافة</span></label><label class="up-chip"><input type="checkbox" id="uPerm_customers_edit"><span>تعديل</span></label></div></div>
+   <div class="up-row"><b>الموردون</b><div class="up-toggles"><label class="up-chip"><input type="checkbox" id="uPerm_suppliers_view"><span>قراءة</span></label><label class="up-chip"><input type="checkbox" id="uPerm_suppliers_add"><span>إضافة</span></label><label class="up-chip"><input type="checkbox" id="uPerm_suppliers_edit"><span>تعديل</span></label></div></div>
+   <div class="up-row"><b>المصروفات</b><div class="up-toggles"><label class="up-chip"><input type="checkbox" id="uPerm_expenses_view"><span>قراءة</span></label><label class="up-chip"><input type="checkbox" id="uPerm_expenses_add"><span>إضافة</span></label><label class="up-chip"><input type="checkbox" id="uPerm_expenses_edit"><span>تعديل</span></label></div></div>
+   <div class="up-row"><b>التقارير (حصة الشريك)</b><div class="up-toggles"><label class="up-chip"><input type="checkbox" id="uPerm_reports_view"><span>قراءة</span></label></div></div>
+    </div>
+   </div>
+   <button type="button" class="primary pf-save" id="uSave" onclick="saveStaffPermission()" style="margin-top:16px">حفظ الصلاحيات</button>
   </div>
-  <div class="panel">
-   <h3>الموظفون الحاليون</h3>
-   <div class="tablewrap"><table><thead><tr><th>البريد الإلكتروني</th><th>الدور</th><th>الصلاحيات</th><th>إجراء</th></tr></thead><tbody id="staffRows"></tbody></table></div>
-  </div>
+  <h3 style="margin:18px 4px 10px">الموظفون الحاليون</h3>
+  <div id="staffRows" class="vcards"></div>
  </div>
 </section>
 <div style="display:none"></div>
