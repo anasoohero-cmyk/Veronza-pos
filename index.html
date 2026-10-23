@@ -625,6 +625,9 @@ transition:transform .2s ease,opacity .2s ease;opacity:0;pointer-events:none}
 .oc-img{display:flex;align-items:center;gap:10px;background:#faf6ef;border-radius:12px;padding:6px;text-decoration:none;color:var(--p);font-size:12.5px;font-weight:700}
 .oc-img img{width:64px;height:64px;object-fit:cover;border-radius:9px;background:#efe6d6}
 </style>
+<style id="veronza-statusperm-style">
+.up-statuses{display:flex;flex-wrap:wrap;gap:8px}
+</style>
 </head>
 <body style="background:#fff!important"><div id="setup"><div class="modal"><h2>ربط Veronza بقاعدة البيانات</h2><p>الاتصال بـ Supabase مدمج وآمن داخل التطبيق. لا تحتاج لإدخال بيانات الاتصال.</p><input id="cfgUrl" placeholder="الاتصال مدمج تلقائيًا" disabled><input id="cfgKey" placeholder="المفتاح العام مدمج تلقائيًا" disabled><button class="primary" style="width:100%;margin-top:8px" onclick="saveConfig()">متابعة</button><div class="hint">بيانات الاتصال الأساسية مدمجة في نسخة Veronza.</div></div></div>
 <div id="login"><div class="modal"><h2>تسجيل الدخول إلى Veronza</h2><input id="loginEmail" type="email" placeholder="البريد الإلكتروني"><input id="loginPassword" type="password" placeholder="كلمة المرور"><button class="primary" style="width:100%;margin-top:8px" onclick="login()">دخول</button><button style="width:100%;margin-top:8px" onclick="passkeyLogin()">🔐 دخول سريع بـ Face ID</button><button style="width:100%;margin-top:8px" onclick="signup()">إنشاء حساب</button><div id="loginMsg" class="hint"></div></div></div>
@@ -839,6 +842,7 @@ transition:transform .2s ease,opacity .2s ease;opacity:0;pointer-events:none}
      <button type="button" class="up-preset" onclick="applyPreset('partner')">🤝 شريك — التقارير فقط</button>
      <button type="button" class="up-preset" onclick="applyPreset('cashier')">🧾 كاشير</button>
      <button type="button" class="up-preset" onclick="applyPreset('orders')">📦 موظف طلبات</button>
+     <button type="button" class="up-preset" onclick="applyPreset('delivery')">🚚 موظف توصيل</button>
      <button type="button" class="up-preset" onclick="applyPreset('all')">✅ الكل</button>
      <button type="button" class="up-preset" onclick="applyPreset('none')">مسح</button>
     </div>
@@ -855,6 +859,11 @@ transition:transform .2s ease,opacity .2s ease;opacity:0;pointer-events:none}
    <div class="up-row"><b>المصروفات</b><div class="up-toggles"><label class="up-chip"><input type="checkbox" id="uPerm_expenses_view"><span>قراءة</span></label><label class="up-chip"><input type="checkbox" id="uPerm_expenses_add"><span>إضافة</span></label><label class="up-chip"><input type="checkbox" id="uPerm_expenses_edit"><span>تعديل</span></label></div></div>
    <div class="up-row"><b>التقارير (حصة الشريك)</b><div class="up-toggles"><label class="up-chip"><input type="checkbox" id="uPerm_reports_view"><span>قراءة</span></label></div></div>
     </div>
+   </div>
+   <div class="pf-sec" style="margin-top:16px">
+    <div class="pf-sec-title">حالات الطلب اللي يقدر يغيّر الطلب إليها</div>
+    <div class="up-statuses" id="uStatuses"></div>
+    <small class="of-note">تنطبق على اللي عنده "تعديل" في الطلبات، وكل مستخدم يشوف في قائمة الحالة الخيارات المسموحة له فقط. حالة "خالص" ما تُعطى إلا إذا اخترتها صراحةً.</small>
    </div>
    <button type="button" class="primary pf-save" id="uSave" onclick="saveStaffPermission()" style="margin-top:16px">حفظ الصلاحيات</button>
   </div>
